@@ -414,8 +414,12 @@ exports.GanttChart = function (pDiv, pFormat) {
             vTmpTBody = this.newNode(vTmpTab, 'tbody');
             var _loop_1 = function (i_1) {
                 var vBGColor = void 0;
-                if (this_1.vTaskList[i_1].getGroup() == 1)
+                if (this_1.vTaskList[i_1].getGroup() == 1) {
                     vBGColor = 'ggroupitem';
+                    if (this_1.vTaskList[i_1].getParent() == 0) {
+                        vBGColor += ' ggroupprimary';
+                    }
+                }
                 else
                     vBGColor = 'glineitem';
                 vID = this_1.vTaskList[i_1].getID();
@@ -784,7 +788,11 @@ exports.GanttChart = function (pDiv, pFormat) {
                     if (this.vTaskList[i].getGroup()) {
                         vTaskWidth = (vTaskWidth > this.vMinGpLen && vTaskWidth < this.vMinGpLen * 2) ? this.vMinGpLen * 2 : vTaskWidth; // Expand to show two end points
                         vTaskWidth = (vTaskWidth < this.vMinGpLen) ? this.vMinGpLen : vTaskWidth; // expand to show one end point
-                        vTmpRow = this.newNode(vTmpTBody, 'tr', this.vDivId + 'childrow_' + vID, ((this.vTaskList[i].getGroup() == 2) ? 'glineitem gitem' : 'ggroupitem ggroup') + this.vFormat, null, null, null, ((this.vTaskList[i].getVisible() == 0) ? 'none' : null));
+                        var vClass = '';
+                        if (this.vTaskList[i].getGroup() == 1 && this.vTaskList[i].getParent() == 0) {
+                            vClass = ' ggroupprimary';
+                        }
+                        vTmpRow = this.newNode(vTmpTBody, 'tr', this.vDivId + 'childrow_' + vID, ((this.vTaskList[i].getGroup() == 2) ? 'glineitem gitem' : 'ggroupitem ggroup') + this.vFormat + vClass, null, null, null, ((this.vTaskList[i].getVisible() == 0) ? 'none' : null));
                         this.vTaskList[i].setChildRow(vTmpRow);
                         events_1.addThisRowListeners(this, this.vTaskList[i].getListChildRow(), vTmpRow);
                         vTmpCell = this.newNode(vTmpRow, 'td', null, 'gtaskcell');
@@ -823,6 +831,10 @@ exports.GanttChart = function (pDiv, pFormat) {
                         }
                         else {
                             // Draw Task Bar which has colored bar div
+                            var vClass = '';
+                            if (this.vTaskList[i].getGroup() == 1 && this.vTaskList[i].getParent() == 0) {
+                                vClass = ' ggroupprimary';
+                            }
                             vTmpRow = this.newNode(vTmpTBody, 'tr', this.vDivId + 'childrow_' + vID, 'glineitem gitem' + this.vFormat, null, null, null, ((this.vTaskList[i].getVisible() == 0) ? 'none' : null));
                             this.vTaskList[i].setChildRow(vTmpRow);
                             events_1.addThisRowListeners(this, this.vTaskList[i].getListChildRow(), vTmpRow);
