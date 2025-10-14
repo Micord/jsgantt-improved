@@ -405,7 +405,12 @@ export const GanttChart = function (pDiv, pFormat) {
 
       for (let i = 0; i < this.vTaskList.length; i++) {
         let vBGColor;
-        if (this.vTaskList[i].getGroup() == 1) vBGColor = 'ggroupitem';
+        if (this.vTaskList[i].getGroup() == 1) {
+          vBGColor = 'ggroupitem';
+          if (this.vTaskList[i].getParent() == 0) {
+            vBGColor += ' ggroupprimary';
+          }
+        }
         else vBGColor = 'glineitem';
 
         vID = this.vTaskList[i].getID();
@@ -792,7 +797,11 @@ export const GanttChart = function (pDiv, pFormat) {
             vTaskWidth = (vTaskWidth > this.vMinGpLen && vTaskWidth < this.vMinGpLen * 2) ? this.vMinGpLen * 2 : vTaskWidth; // Expand to show two end points
             vTaskWidth = (vTaskWidth < this.vMinGpLen) ? this.vMinGpLen : vTaskWidth; // expand to show one end point
 
-            vTmpRow = this.newNode(vTmpTBody, 'tr', this.vDivId + 'childrow_' + vID, ((this.vTaskList[i].getGroup() == 2) ? 'glineitem gitem' : 'ggroupitem ggroup') + this.vFormat, null, null, null, ((this.vTaskList[i].getVisible() == 0) ? 'none' : null));
+            let vClass = '';
+            if (this.vTaskList[i].getGroup() == 1 && this.vTaskList[i].getParent() == 0) {
+              vClass = ' ggroupprimary';
+            }
+            vTmpRow = this.newNode(vTmpTBody, 'tr', this.vDivId + 'childrow_' + vID, ((this.vTaskList[i].getGroup() == 2) ? 'glineitem gitem' : 'ggroupitem ggroup') + this.vFormat + vClass, null, null, null, ((this.vTaskList[i].getVisible() == 0) ? 'none' : null));
             this.vTaskList[i].setChildRow(vTmpRow);
             addThisRowListeners(this, this.vTaskList[i].getListChildRow(), vTmpRow);
             vTmpCell = this.newNode(vTmpRow, 'td', null, 'gtaskcell');
@@ -834,6 +843,10 @@ export const GanttChart = function (pDiv, pFormat) {
             }
             else {
               // Draw Task Bar which has colored bar div
+              let vClass = '';
+              if (this.vTaskList[i].getGroup() == 1 && this.vTaskList[i].getParent() == 0) {
+                vClass = ' ggroupprimary';
+              }
               vTmpRow = this.newNode(vTmpTBody, 'tr', this.vDivId + 'childrow_' + vID, 'glineitem gitem' + this.vFormat, null, null, null, ((this.vTaskList[i].getVisible() == 0) ? 'none' : null));
               this.vTaskList[i].setChildRow(vTmpRow);
               addThisRowListeners(this, this.vTaskList[i].getListChildRow(), vTmpRow);
