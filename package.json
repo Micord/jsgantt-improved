@@ -1,6 +1,6 @@
 {
   "name": "jsgantt-improved",
-  "version": "2.0.9-cg.3",
+  "version": "2.0.9-cg.4",
   "description": "jsgantt-improved",
   "main": "dist/index.js",
   "scripts": {
@@ -46,6 +46,23 @@
     "ts-node": "^7.0.1",
     "cpx": "^1.5.0"
   },
+  "files": [
+    "/dist",
+    "/docs",
+    "/e2e",
+    "/test",
+    ".travis.yml",
+    "CONTRIBUTING.md",
+    "Documentation.md",
+    "jsgantt.js",
+    "LICENSE",
+    "package.json",
+    "protractor.conf.js",
+    "README.md",
+    "server.js",
+    "tsconfig.json",
+    "tslint.json"
+  ],
   "release": {
     "branch": "cg-master"
   },
